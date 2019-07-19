@@ -3,33 +3,37 @@ require 'database_helpers'
 
 describe Bookmark do
   describe '.all' do
-    it 'returns a list of bookmarks' do
+   it 'returns a list of bookmarks' do
 
-      Bookmark.create(url: 'http://www.makersacademy.com', title: 'makers academy')
-      Bookmark.create(url: 'http://www.destroyallsoftware.com', title: 'destroy all software')
-      Bookmark.create(url: 'http://www.google.com', title: 'google')
+     Bookmark.create(url: 'http://www.makersacademy.com', title: 'makers academy')
+     Bookmark.create(url: 'http://www.destroyallsoftware.com', title: 'destroy all software')
+     Bookmark.create(url: 'http://www.google.com', title: 'google')
 
 
-      # Add the test data
-      # connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
-      # connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
-      # connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
+     # Add the test data
+     # connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
+     # connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
+     # connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
 
-      bookmarks = Bookmark.all
-      expect(bookmarks[0].url).to include('http://www.makersacademy.com')
-      expect(bookmarks[1].url).to include('http://www.destroyallsoftware.com')
-      expect(bookmarks[2].url).to include('http://www.google.com')
-    end
-  end
+     bookmarks = Bookmark.all
+     expect(bookmarks[0].url).to include('http://www.makersacademy.com')
+     expect(bookmarks[1].url).to include('http://www.destroyallsoftware.com')
+     expect(bookmarks[2].url).to include('http://www.google.com')
+   end
+ end
 
-  describe '.create' do
-    it 'creates a new bookmark' do
-      bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'test bookmark')
-      persisted_data = persisted_data(id: bookmark.id)
-      expect(bookmark.id).to eq persisted_data['id']
-      expect(bookmark.title).to eq 'test bookmark'
-    end
-  end
+ describe '.create' do
+   it 'creates a new bookmark' do
+     bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'test bookmark')
+     persisted_data = persisted_data(table: 'bookmarks', id: bookmark.id)
+     expect(bookmark.id).to eq persisted_data.first['bookmark_id']
+     expect(bookmark.title).to eq 'test bookmark'
+   end
+   it 'does not create a new bookmark if the URL is not valid' do
+     Bookmark.create(url: 'not a real bookmark', title: 'not a real bookmark')
+     expect(Bookmark.all).not_to include 'not a real bookmark'
+   end
+ end
 
   describe '.delete' do
     it 'deletes the given bookmark' do
@@ -65,8 +69,4 @@ end
       expect(result.url).to eq 'http://www.makersacademy.com'
     end
   end
-
 end
-#     end
-#   end
-# end
