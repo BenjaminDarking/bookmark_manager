@@ -1,6 +1,6 @@
 <ul>
   <% @bookmarks.each do |bookmark| %>
-    <li class="bookmark" id="bookmark-<%= bookmark.id %>">
+    <li id="bookmark-<%= bookmark.id %>"></li>
       <a href="<%= bookmark.url %>" target="_blank">
         <%= bookmark.title %>
       </a>
@@ -11,8 +11,10 @@
       <form action="/bookmarks/<%= bookmark.id %>/edit" method="get">
         <input type="submit" value="Edit" />
       </form>
+    <% bookmark.comments.each do |comment| %>
+      <li><%= comment.text %></li>
+    <% end %>
+    <% end %>
+  </ul>
 
-    </li>
-  <% end %>
-</ul>
 <%= flash[:notice] %>

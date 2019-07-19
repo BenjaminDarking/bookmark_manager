@@ -21,12 +21,10 @@ require 'capybara'
 require 'capybara/rspec'
 require 'rspec'
 require_relative './setup_test_database'
+require 'sinatra/flash'
 
 # require our Sinatra app file
 require File.join(File.dirname(__FILE__), '..', 'app.rb')
-
-
-
 
 
 # tell Capybara about our app class
